@@ -50,9 +50,13 @@ const initialFacts = [
 function App() {
   const [showForm, setShowForm] = useState(false);
   const [facts, setFacts] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(function () {
     async function getFacts() {
+      setIsLoading(true);
       const { data: facts, error } = await supabase.from('facts').select('*');
+      setIsLoading(false);
 
       setFacts(facts);
     }
@@ -61,18 +65,22 @@ function App() {
 
   return (
     <>
-      <Header showForm={showForm} setShowForm={setShowForm}></Header>
+      <Header showForm={showForm} setShowForm={setShowForm} />
 
       {showForm ? (
         <NewFactForm setFacts={setFacts} setShowForm={setShowForm} />
       ) : null}
 
       <main className='main'>
-        <CategoryFilter categories={CATEGORIES}></CategoryFilter>
-        <FactList facts={facts}></FactList>
+        <CategoryFilter categories={CATEGORIES} />
+        {isLoading ? <Loader /> : <FactList facts={facts} />}
       </main>
     </>
   );
+}
+
+function Loader() {
+  return <p className='message'>Loading...</p>;
 }
 
 function Header({ showForm, setShowForm }) {
