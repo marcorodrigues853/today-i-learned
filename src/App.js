@@ -45,23 +45,9 @@ const initialFacts = [
   },
 ];
 
-function Counter() {
-  const [count, setCounter] = useState(0);
-  return (
-    <div>
-      <span style={{ fontSize: '40px' }}>{count}</span>
-      <button
-        className='btn btn-large'
-        onClick={() => setCounter((count) => ++count)}
-      >
-        +1
-      </button>
-    </div>
-  );
-}
-
 function App() {
   const [showForm, setShowForm] = useState(false);
+  const [facts, setFacts] = useState(initialFacts);
 
   return (
     <>
@@ -71,7 +57,7 @@ function App() {
       {/* <NewFactForm></NewFactForm> */}
       <main className='main'>
         <CategoryFilter categories={CATEGORIES}></CategoryFilter>
-        <FactList></FactList>
+        <FactList facts={facts}></FactList>
       </main>
     </>
   );
@@ -190,8 +176,7 @@ function CategoryFilter({ categories }) {
   );
 }
 
-function FactList() {
-  const facts = initialFacts;
+function FactList({ facts }) {
   return (
     <>
       <section>
