@@ -97,8 +97,38 @@ function Header({ showForm, setShowForm }) {
 }
 
 function NewFactForm() {
-  return <form className='fact-form'>Fact Form</form>;
+  const [text, setText] = useState('');
+  const [source, setSource] = useState('');
+  const [category, setCategory] = useState('');
+
+  return (
+    <form className='fact-form'>
+      <input
+        type='text'
+        placeholder='Share a fact with the world...'
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <span>200</span>
+      <input
+        type='text'
+        placeholder='Trustworthy source...'
+        value={source}
+        onChange={(e) => setSource(e.target.value)}
+      />
+      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+        <option value=''>Choose category:</option>
+        {CATEGORIES.map((category) => (
+          <option key={crypto.randomUUID()} value={category.name}>
+            {category.name.toUpperCase()}
+          </option>
+        ))}
+      </select>
+      <button className='btn btn-large'>Post</button>
+    </form>
+  );
 }
+
 function CategoryFilter({ categories }) {
   return (
     <aside>
