@@ -134,26 +134,21 @@ function NewFactForm({ setFacts, setShowForm }) {
   const [category, setCategory] = useState('');
   const textLength = text.length;
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     // 1) prevent browser reload
     e.preventDefault();
 
     // 2) Check if the data is valid. If so, create a new fact
     if (text && isValidHttpUrl(source) && category && textLength <= 200) {
-      // 3) Create a new fact object
-      const fact = {
-        id: Math.round(Math.random() * 10000000000),
-        text,
-        source,
-        category,
-        votesInteresting: 0,
-        votesMindblowing: 0,
-        votesFalse: 0,
-        createdIn: new Date().getFullYear(),
-      };
-      console.log(fact);
+      //3) upload fact to supabase and receive and receive new fact object.
+
+      const { data: newFact, error } = await supabase
+        .from('facts')
+        .insert([{ text, source, category }])
+        .select();
+
       // 4) Add the new fact to the UI: add the fact to state
-      setFacts((facts) => [fact, ...facts]);
+      setFacts((facts) => [newFact[0], ...facts]);
       // 5) Reset input fields
 
       setText('');
