@@ -63,7 +63,7 @@ function App() {
       </header>
       <NewFactForm></NewFactForm>
       <main className='main'>
-        <CategoryFilter></CategoryFilter>
+        <CategoryFilter categories={CATEGORIES}></CategoryFilter>
         <FactList></FactList>
       </main>
     </>
@@ -73,8 +73,29 @@ function App() {
 function NewFactForm() {
   return <form className='fact-form'>Fact Form</form>;
 }
-function CategoryFilter() {
-  return <aside>CAtegory</aside>;
+function CategoryFilter({ categories }) {
+  return (
+    <aside>
+      <ul>
+        <li className='category'>
+          <button className='btn btn-all-categories'>All</button>
+        </li>
+
+        {categories.map((category) => (
+          <li className='category' key={crypto.randomUUID()}>
+            <button
+              className='btn btn-category'
+              style={{
+                backgroundColor: category.color,
+              }}
+            >
+              {category.name}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  );
 }
 
 function FactList() {
